@@ -4,7 +4,7 @@ from django.urls import reverse
 
 
 def attachment_path(instance, filename):
-    return "song/" + str(instance.film.id) + "/attachments/" + filename
+    return "song/" + str(instance.song.id) + "/attachments/" + filename
 
 
 def poster_path(instance, filename):
