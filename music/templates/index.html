@@ -1,10 +1,35 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-    <meta charset="UTF-8">
-    <title>MSKNK</title>
-</head>
-<body>
-    <h1>Muskník</h1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mt-3 mb-3 bg-warning p-3"> 
+    <div class="col-sm-12"> 
+        <h2 class="text-center">Nejlépe hodnocené písničky</h2>
+    </div> 
+</div> 
+<div class="row"> 
+    {% for song in songs %}
+    <div class="col-sm-4"> 
+        <div class="card"> 
+            {% if song.poster %}
+            <img class="card-img-top" src="{{ song.poster.url }}" alt="{{ song.title }}">
+            {% endif %} 
+            <div class="card-body"> 
+                <h4 class="card-title">{{ song.title }}</h4>
+                <p class="card-text"><strong>Žánry:</strong>  
+
+                {% for genre in song.genres.all %}{{ genre.name }}{% endfor %}
+
+                </p> 
+                <p><strong>Hodnocení:</strong> {{ song.rate }}</p>
+                <a href="#" class="btn btn-primary">Podrobnosti</a> 
+            </div> 
+        </div> 
+    </div> 
+    {% endfor %} 
+</div> 
+<div class="row"> 
+    <div class="col-sm-12"> 
+        <strong>Celkový počet písniček:</strong> {{ num_songs }}
+    </div> 
+</div> 
+{% endblock %} 

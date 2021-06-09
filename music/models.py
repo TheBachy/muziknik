@@ -27,6 +27,8 @@ class Song(models.Model):
 
     plot = models.TextField(blank=True, null=True, verbose_name="Description")
 
+    poster = models.ImageField(upload_to=poster_path, blank=True, null=True, verbose_name="Album image")
+
     release_date = models.DateField(blank=True, null=True,
 
                                     help_text="Please use the following format: <em>YYYY-MM-DD</em>.",
@@ -66,7 +68,7 @@ class Album(models.Model):
 
     songs = models.ManyToManyField(Song, help_text="Songs in album")
 
-    poster = models.ImageField(upload_to=poster_path, blank=True, null=True, verbose_name="Album image")
+    #poster = models.ImageField(upload_to=poster_path, blank=True, null=True, verbose_name="Album image")
 
     release_date = models.DateField(blank=True, null=True,
 
