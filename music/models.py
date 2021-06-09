@@ -4,7 +4,7 @@ from django.urls import reverse
 
 
 def attachment_path(instance, filename):
-    return "song/" + str(instance.song.id) + "/attachments/" + filename
+    return "song/" + str(instance.id) + "/attachments/" + filename
 
 
 def poster_path(instance, filename):
@@ -27,7 +27,9 @@ class Song(models.Model):
 
     plot = models.TextField(blank=True, null=True, verbose_name="Description")
 
-    poster = models.ImageField(upload_to=poster_path, blank=True, null=True, verbose_name="Album image")
+    poster = models.ImageField(upload_to=poster_path, blank=True, null=True, verbose_name="Song image")
+
+    music = models.FileField(upload_to=attachment_path, blank=True, null=True, verbose_name="Song file")
 
     release_date = models.DateField(blank=True, null=True,
 
