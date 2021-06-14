@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="margin-top:10px" class="row justify-content-end">
+    <div class="container">
+        <div class="col-sm-6">
+            <div class="card">
+                <img class="card-img-top" src="{{ band_detail.poster.url }}" alt="{{ band_detail.title }} band image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ band_detail.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ band_detail.desc }}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

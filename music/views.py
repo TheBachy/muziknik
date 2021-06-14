@@ -1,8 +1,10 @@
 from django.shortcuts import render
 
 from django.shortcuts import render
+from django.urls import reverse_lazy
+
 from music.models import *
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 
 
 def index(request):
@@ -32,7 +34,39 @@ class SongDetailView(DetailView):
     template_name = 'song/detail.html'
 
 
+class BandDetailView(DetailView):
+
+    model = Band
+
+    context_object_name = 'band_detail'
+    template_name = 'band/detail.html'
+
+
+class SongListView(ListView):
+
+    model = Song
+
+    context_object_name = 'song_list'
+    template_name = 'song/list.html'
+    paginate_by = 9
 
 
 def topten(request):
     return render(request, 'topten.html')
+
+
+class SongCreate(CreateView):
+    model = Song
+    fields = ['band', 'title', 'genres', 'release_date', 'rate', 'length', ]
+    initial = {'rate': '5'}
+
+
+class SongUpdate(UpdateView):
+    model = Song
+    template_name = 'form/song_bootstrap_form.html'
+    fields = '__all__' # Not recommended (potential security issue if more fields added)
+
+
+class SongDelete(DeleteView):
+    model = Song
+    success_url = reverse_lazy('films')

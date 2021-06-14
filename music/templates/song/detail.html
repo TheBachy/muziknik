@@ -4,7 +4,6 @@
 <div style="margin-top:10px" class="row justify-content-end">
     <div class="container">
         <div class="col-sm-3"></div>
-
         <div class="col-sm-6">
             <div class="card">
                 <img class="card-img-top" src="{{ song_detail.poster.url }}" alt="{{ song_detail.title }} song image">
@@ -12,16 +11,23 @@
                         <h5 class="card-title">{{ song_detail.title }}</h5>
                         <h6 class="card-subtitle mb-2 text-muted"> <a href="#">{{ song_detail.band }}</a></h6>
                     </div>
-                <ul class="list-group list-group-flush">
-                    <audio controls><source src="{{ song_detail.music.url }}" type="audio/mpeg"></audio>
-                    <li class="list-group-item"><strong>Album:</strong><a href="#">{{ song_detail.album }}</a></li>
-                    <li class="list-group-item"><strong>Vydáno:</strong> {{ song_detail.release_date }}</li>
-                    <li class="list-group-item"><strong>Žánr:</strong><a href="#">{{ song_detail.genre.name }}</a> </li>
-                    <li class="list-group-item"><strong>Hodnocení:</strong> {{ song_detail.rate }} / 10,0</li>
-                </ul>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><audio controls><source src="{{ song_detail.music.url }}" type="audio/mpeg"></audio></li>
+                        <li class="list-group-item"><strong>Album:</strong> {% for album in song_detail.album_set.all %}  <a href="#"> {{ album.title }} </a>{% endfor %}</li>
+                        <li class="list-group-item"><strong>Vydáno:</strong> {{ song_detail.release_date }}</li>
+                        <li class="list-group-item"><strong>Žánr:</strong> {% for genre in song_detail.genres.all %}<a href="#">{{ genre.name }}</a> {% endfor %} </li>
+                        <li class="list-group-item"><strong>Hodnocení:</strong> {{ song_detail.rate }} / 10,0</li>
+                    </ul>
+                </div>
             </div>
+            <div class="col-sm-6 text-center">
+                <a href="{% url 'song_update' song_detail.pk %}" class="btn btn-primary">Upravit</a>
+                <a href="{% url 'song_delete' song_detail.pk %}" class="btn btn-danger">Smazat</a>
+            </div>
+        <div class="row mb-3">
+
         </div>
-    <div class="col-sm-3"></div>
+    </div>
 </div>
 {% endblock %}
 

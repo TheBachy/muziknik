@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load bootstrap_pagination %}
+{% block content %}
+
+<div class="row mt-3 mb-3 bg-warning p-3"> 
+    <div class="col">
+        <h3 class="text-center">Nejlépe hodnocené skladby</h3>
+    </div>
+</div> 
+<div class="row">
+    {% for song in song_list %}
+    <div class="col-sm-3">
+        <div class="card">
+            {% if song.poster %}
+            <a href="{% url 'song_detail' song.id %}"> <img class="card-img-top" src="{{ song.poster.url }}" alt="{{ song.title }}"></a>
+            {% endif %}
+            <div class="card-body text-left">
+                <h4 class="card-title">{{ song.title }}</h4>
+                <a href="{% url 'band_detail' song.band.id %}"><h5 class="card-subtitle mb-2 text-muted"><img width="45px" height="45px" class="rounded" src="{{ song.band.poster.url }}"> {{ song.band.name }} </h5></a>
+                <p class="card-text"><strong>Žánr:</strong>
+
+                {% for genre in song.genres.all %}{{ genre.name }}{% endfor %}
+
+                </p>
+                <p><strong>Hodnocení:</strong> {{ song.rate }}</p>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+
+
+<div class="row"> 
+    <div class="col-sm-12"> 
+        {% bootstrap_paginate page_obj range=10 %}
+    </div> 
+</div> 
+{% endblock %} 

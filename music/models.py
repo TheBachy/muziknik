@@ -26,6 +26,7 @@ class Band(models.Model):
 
     poster = models.ImageField(upload_to=band_poster_path, blank=True, null=True, verbose_name="Band poster")
 
+
     class Meta:
         ordering = ["name"]
 
