@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from django.shortcuts import render
 from music.models import *
+from django.views.generic import DetailView
 
 
 def index(request):
@@ -21,6 +22,16 @@ def index(request):
 
     """ Pomocí metody render vyrendrujeme šablonu index.html a předáme ji hodnoty v proměnné context k zobrazení """
     return render(request, 'index.html', context=context)
+
+
+class SongDetailView(DetailView):
+
+    model = Song
+
+    context_object_name = 'song_detail'
+    template_name = 'song/detail.html'
+
+
 
 
 def topten(request):

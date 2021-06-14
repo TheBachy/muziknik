@@ -11,6 +11,28 @@ def poster_path(instance, filename):
     return "song/" + str(instance.id) + "/poster/" + filename
 
 
+def album_poster_path(instance, filename):
+    return "album/" + str(instance.id) + "/poster/" + filename
+
+
+def band_poster_path(instance, filename):
+    return "band/" + str(instance.id) + "/poster/" + filename
+
+
+class Band(models.Model):
+    name = models.CharField(max_length=100, unique=False, verbose_name="Band name")
+
+    desc = models.TextField(blank=True, null=True, verbose_name="Description")
+
+    poster = models.ImageField(upload_to=band_poster_path, blank=True, null=True, verbose_name="Band poster")
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
 class Genre(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name="Genre name",
                             help_text='Enter a song genre (e.g. rock, electro, punk...)')
@@ -23,13 +45,15 @@ class Genre(models.Model):
 
 
 class Song(models.Model):
-    title = models.CharField(max_length=200, verbose_name="Title")
+    band = models.ForeignKey(Band, blank=True, null=True, verbose_name="Band", on_delete = models.CASCADE)
 
-    plot = models.TextField(blank=True, null=True, verbose_name="Description")
+    title = models.CharField(max_length=200, verbose_name="Title")
 
     poster = models.ImageField(upload_to=poster_path, blank=True, null=True, verbose_name="Song image")
 
     music = models.FileField(upload_to=attachment_path, blank=True, null=True, verbose_name="Song file")
+
+    genres = models.ManyToManyField(Genre, help_text='Select a genre for this song')
 
     release_date = models.DateField(blank=True, null=True,
 
@@ -53,24 +77,26 @@ class Song(models.Model):
 
                              verbose_name="Rating")
 
-    genres = models.ManyToManyField(Genre, help_text='Select a genre for this song')
 
     class Meta:
         ordering = ["-release_date", "title", "rate"]
 
     def __str__(self):
-        return f"{self.title}, year: {str(self.release_date.year)}, rate: {str(self.rate)}"
+        return f"{self.band}, {self.title}, year: {str(self.release_date.year)}, rate: {str(self.rate)}"
 
     def get_absolute_url(self):
         return reverse('song-detail', args=[str(self.id)])
 
 
 class Album(models.Model):
+
+    band = models.ForeignKey(Band, blank=True, null=True, verbose_name="Band", on_delete = models.CASCADE)
+
     title = models.CharField(max_length=200, help_text="Album title")
 
-    songs = models.ManyToManyField(Song, help_text="Songs in album")
+    songs = models.ManyToManyField(Song, blank=True, verbose_name="Songs")
 
-    #poster = models.ImageField(upload_to=poster_path, blank=True, null=True, verbose_name="Album image")
+    poster = models.ImageField(upload_to=album_poster_path, blank=True, null=True, verbose_name="Album image")
 
     release_date = models.DateField(blank=True, null=True,
 
